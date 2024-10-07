@@ -24,7 +24,7 @@ async function bootstrap() {
             'Sample description'
         )
         .setVersion('0.1')
-        .addTag('Card', 'API endpoints for managing One Piece TCG cards')
+        //.addTag('Card', 'API endpoints for managing One Piece TCG cards')
         .addBearerAuth()
         .build();
 
