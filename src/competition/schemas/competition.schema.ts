@@ -55,3 +55,12 @@ CompetitionSchema.pre<CompetitionDocument>('save', function (next) {
     }
     next();
 });
+
+CompetitionSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are included in the response when using `toJSON`
+CompetitionSchema.set('toJSON', {
+    virtuals: true,
+});

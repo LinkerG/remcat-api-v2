@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
+import { ResultModule } from './result/result.module';
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import { CompetitionModule } from './competition/competition.module';
                 : process.env.MONGO_URI,
         ),
         AuthModule,
-        CompetitionModule
+        CompetitionModule,
+        ResultModule
     ],
     controllers: [],
     providers: [],
