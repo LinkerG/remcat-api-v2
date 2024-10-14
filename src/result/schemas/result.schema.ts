@@ -14,6 +14,9 @@ export class Result {
     @Prop()
     time: string;
 
+    @Prop({ default: 0 })
+    group: number;
+
     @Prop()
     isFinal: boolean;
 
