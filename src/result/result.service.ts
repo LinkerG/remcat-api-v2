@@ -37,7 +37,7 @@ export class ResultService {
         }).exec();
 
         if (!results || results.length === 0) {
-            throw new NotFoundException(competitionIds[0]);
+            throw new NotFoundException("No results found");
         }
 
         // Crear estructura de liga
@@ -55,7 +55,7 @@ export class ResultService {
 
             // Para cada categoría en esta competición, ordenar y asignar puntos
             Object.entries(resultsByCategory).forEach(([category, categoryResults]) => {
-                const sortedResults = sortResults(categoryResults);
+                const sortedResults = sortResults(categoryResults as Result[]);
                 let points = 20;
 
                 sortedResults.forEach((result) => {

@@ -1,3 +1,5 @@
+import { Result } from "src/result/schemas/result.schema";
+
 export function convertToMilliseconds(time: string): number {
     if (time === "DNS" || time === "DNF") {
         // Se devuelve un número demasiado grande para que la función no lo clasifique
@@ -8,7 +10,7 @@ export function convertToMilliseconds(time: string): number {
     return (minutes * 60 * 1000) + (seconds * 1000) + milliseconds;
 }
 
-export function sortResults(results: any[]): any[] {
+export function sortResults(results: Result[]): Result[] {
     const validResults = results.filter(result => result.isValid && result.time !== "DNS" && result.time !== "DNF");
     const dnsOrInvalidResults = results.filter(result => !result.isValid || result.time === "DNS" || result.time === "DNF");
 
