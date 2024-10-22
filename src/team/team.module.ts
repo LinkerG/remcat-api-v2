@@ -5,6 +5,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { Team, TeamSchema } from './schema/team.schema';
 import { TeamController } from './team.controller';
 import { TeamService } from './team.service';
+import { CompetitionModule } from 'src/competition/competition.module';
+import { ResultModule } from 'src/result/result.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { TeamService } from './team.service';
       }),
       MongooseModule.forFeature([{ name: Team.name, schema: TeamSchema }]),
       AuthModule,
+      CompetitionModule,
+      ResultModule,
   ],
   controllers: [TeamController],
   providers: [TeamService],

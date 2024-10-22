@@ -77,6 +77,10 @@ export class ResultService {
     
         return this.buildLeagueStructure(competitions, results);
     }
+
+    async findValidResults() {
+        return this.resultModel.find({ isValid: true }).exec();
+      }
     
     private async getCompetitionsForLeague(startDate: Date, endDate: Date): Promise<Competition[]> {
         return this.competitionService.findAll({

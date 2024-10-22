@@ -89,4 +89,13 @@ export class TeamController {
             await this.teamService.remove(id);
         }
     }
+
+    @Get(':slug/resume')
+    @UseInterceptors(CacheInterceptor) 
+    @ApiOperation({ summary: 'Obtener el resumen de un equipo' })
+    async getResume(
+        @Param('slug') slug: string
+    ): Promise<any[]> {
+        return this.teamService.getResume(slug);
+    }
 }
