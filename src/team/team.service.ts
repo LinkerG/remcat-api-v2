@@ -142,11 +142,11 @@ export class TeamService {
         const leagueResults = [];
     
         leagues.forEach(league => {
-          const sortedResults = league.leagueSummary.sort((a, b) => b.points - a.points);
+          const sortedResults = league.league_summary.sort((a, b) => b.points - a.points);
           const position = sortedResults.findIndex((result) => result.team_slug === team_slug) + 1;
     
           leagueResults.push({
-            competition_name: league.boatType,
+            competition_name: league.boat_type,
             category: league.category,
             position: position,
           });

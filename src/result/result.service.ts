@@ -101,14 +101,14 @@ export class ResultService {
         const leagues = [];
     
         competitions.forEach((competition) => {
-            const boatType = competition.boat_type;
+            const boat_type = competition.boat_type;
             const resultsForThisCompetition = this.filterResultsByCompetition(results, competition);
     
             const resultsByCategory = this.groupResultsByCategory(resultsForThisCompetition);
     
             Object.entries(resultsByCategory).forEach(([category, categoryResults]) => {
                 const sortedResults = sortResults(categoryResults as Result[]);
-                this.assignPointsToTeams(leagues, sortedResults, boatType, category);
+                this.assignPointsToTeams(leagues, sortedResults, boat_type, category);
             });
         });
     
@@ -127,28 +127,28 @@ export class ResultService {
         }, {});
     }
     
-    private assignPointsToTeams(leagues: any[], sortedResults: Result[], boatType: string, category: string) {
+    private assignPointsToTeams(leagues: any[], sortedResults: Result[], boat_type: string, category: string) {
         let points = 20;
     
         sortedResults.forEach((result) => {
             const { team_slug, team_number } = result;
     
-            let league = leagues.find(league => league.boatType === boatType && league.category === category);
+            let league = leagues.find(league => league.boat_type === boat_type && league.category === category);
     
             if (!league) {
                 league = {
-                    boatType,
+                    boat_type,
                     category,
-                    leagueSummary: [],
+                    league_summary: [],
                 };
                 leagues.push(league);
             }
     
-            let team = league.leagueSummary.find(team => team.team_slug === team_slug && team.team_number === team_number);
+            let team = league.league_summary.find(team => team.team_slug === team_slug && team.team_number === team_number);
     
             if (!team) {
                 team = { team_slug, team_number, points };
-                league.leagueSummary.push(team);
+                league.league_summary.push(team);
             } else {
                 team.points += points;
             }
