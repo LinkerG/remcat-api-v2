@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Result } from './schemas/result.schema';
 import { Model as MongooseModel } from 'mongoose';
-import { sortResults } from 'src/utils/sortResults';
-import { CompetitionService } from '../competition/competition.service';
+import { Result } from './schemas/result.schema';
 import { CreateResultDto } from './dto/create-result.dto';
-import { Competition } from 'src/competition/schemas/competition.schema';
+import { sortResults } from '../utils/sortResults';
+import { CompetitionService } from '../competition/competition.service';
+import { Competition } from '../competition/schemas/competition.schema';
 
 @Injectable()
 export class ResultService {
@@ -56,7 +56,7 @@ export class ResultService {
         return await this.resultModel.insertMany(newResults);
     }
 
-    // ESTADISTICA DE LIGA
+    /* --- ESTADISTICA DE LIGA --- */
     async getLeague(year: number): Promise<any[]> {
         const startDate = new Date(`${year}-01-01`);
         const endDate = new Date(`${year}-12-31`);
