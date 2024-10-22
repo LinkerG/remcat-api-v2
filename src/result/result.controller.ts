@@ -52,7 +52,6 @@ export class ResultController {
         @Param("category") category: string,
         @Body() results: CreateResultDto[]
     ): Promise<Result[]> {
-        console.log(results)
         return this.resultService.createResults(competition_id, category, results);
     }
 }

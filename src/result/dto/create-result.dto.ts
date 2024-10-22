@@ -8,7 +8,15 @@ export class CreateResultDto {
     })
     @IsString()
     @IsNotEmpty()
-    teamShortName: string;
+    team_slug: string;
+
+    @ApiProperty({
+        description: 'Numero del equipo en caso de que haya varios (0 en caso de que no haya mas de 1)',
+        example: 0,
+    })
+    @IsNumber()
+    @IsOptional()
+    team_number?: number;
 
     @ApiProperty({
         description: 'Tiempo en formato MM:SS:MSMS o DNF/DNS en caso de tiempos invalidos',

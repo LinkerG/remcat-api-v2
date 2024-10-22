@@ -6,7 +6,10 @@ export class Result {
     competition_id: string;
 
     @Prop()
-    teamShortName: string;
+    team_slug: string;
+
+    @Prop({ default: 0 })
+    team_number: number;
 
     @Prop()
     category: string;
