@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Header, Inject, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Header, Inject, Param, Post, Req, UnauthorizedException, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResultService } from './result.service';
 import { Cache, CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Result } from './schemas/result.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateResultDto } from './dto/create-result.dto';
+import { Role } from 'src/auth/schemas/user.schema';
 
 @Controller('results')
 @ApiTags('Results')
@@ -44,14 +45,20 @@ export class ResultController {
     }
 
     @Post(":id/category/:category")
-    // @UseGuards(AuthGuard('jwt'))
-    // @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @ApiOperation({ description: 'Create one or many new results' })
     async createResults(
+        @Req() req,
         @Param("id") competition_id: string,
         @Param("category") category: string,
         @Body() results: CreateResultDto[]
     ): Promise<Result[]> {
-        return this.resultService.createResults(competition_id, category, results);
+        const user = req.user;
+        if (!user || user.role == Role.USER)
+            throw new UnauthorizedException('You must be logged as administrator in to create a competition');
+        else {
+            return this.resultService.createResults(competition_id, category, results);
+        }
     }
 }
