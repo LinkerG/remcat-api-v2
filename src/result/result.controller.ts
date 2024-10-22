@@ -1,8 +1,10 @@
-import { Controller, Get, Header, Inject, Param, UseInterceptors } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Header, Inject, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResultService } from './result.service';
 import { Cache, CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Result } from './schemas/result.schema';
+import { AuthGuard } from '@nestjs/passport';
+import { CreateResultDto } from './dto/create-result.dto';
 
 @Controller('results')
 @ApiTags('Results')
@@ -39,5 +41,18 @@ export class ResultController {
         @Param("category") category: string
     ): Promise<Result[]> {
         return this.resultService.getResultsByIdAndCategory(id, category);
+    }
+
+    @Post(":id/category/:category")
+    // @UseGuards(AuthGuard('jwt'))
+    // @ApiBearerAuth()
+    @ApiOperation({ description: 'Create one or many new results' })
+    async createResults(
+        @Param("id") competition_id: string,
+        @Param("category") category: string,
+        @Body() results: CreateResultDto[]
+    ): Promise<Result[]> {
+        console.log(results)
+        return this.resultService.createResults(competition_id, category, results);
     }
 }

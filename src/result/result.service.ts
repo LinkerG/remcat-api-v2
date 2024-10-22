@@ -4,6 +4,7 @@ import { Result } from './schemas/result.schema';
 import { Model as MongooseModel } from 'mongoose';
 import { sortResults } from 'src/utils/sortResults';
 import { CompetitionService } from '../competition/competition.service';
+import { CreateResultDto } from './dto/create-result.dto';
 
 @Injectable()
 export class ResultService {
@@ -96,4 +97,34 @@ export class ResultService {
     async getResultsByIdAndCategory(id: string, category: string): Promise<Result[]> {
         return await this.resultModel.find({ competition_id: id, category: category }).exec();
     }
+
+    async createResults(competition_id: string, category: string, result: CreateResultDto[]): Promise<Result[]> {
+        if (!Array.isArray(result)) {
+            const singleResult: CreateResultDto = result
+            const insertedResult = await this.resultModel.create({
+                competition_id,
+                category,
+                teamShortName: singleResult.teamShortName,
+                time: singleResult.time,
+                group: singleResult.group,
+                isFinal: singleResult.isFinal,
+                isValid: true,
+            });
+
+            return [insertedResult];
+        }
+
+        const newResults = result.map(resultDto => ({
+            // Se añaden al DTO los datos pasados por parametro en la URL del endpoint
+            competition_id,
+            category,
+            teamShortName: resultDto.teamShortName,
+            time: resultDto.time,
+            group: resultDto.group,
+            isFinal: resultDto.isFinal,
+            isValid: true,
+        }));
+    
+        return await this.resultModel.insertMany(newResults);
+    }    
 }
