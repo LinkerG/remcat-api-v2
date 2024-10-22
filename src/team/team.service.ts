@@ -7,6 +7,8 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './schema/team.schema';
 import { CompetitionService } from 'src/competition/competition.service';
 import { ResultService } from 'src/result/result.service';
+import { Result } from 'src/result/schemas/result.schema';
+import { sortResults } from 'src/utils/sortResults';
 
 @Injectable()
 export class TeamService {
@@ -113,13 +115,13 @@ export class TeamService {
         const competitionResults = [];
     
         Object.entries(resultsByCategory).forEach(([category, categoryResults]) => {
-          const sortedResults = this.sortResults(categoryResults);
+          const sortedResults = sortResults(categoryResults as Result[]);
           const position = sortedResults.findIndex((result) => result.team_slug === slug) + 1;
           const result = sortedResults.find(res => res.team_slug === slug);
     
           if (result) {
             competitionResults.push({
-              competition_name: competition.name,
+              competition: "CHAMPIONSHIP-" + competition.boat_type + "-" + competition.date.getFullYear(),
               category: result.category,
               position: position,
             });
@@ -146,7 +148,7 @@ export class TeamService {
           const position = sortedResults.findIndex((result) => result.team_slug === team_slug) + 1;
     
           leagueResults.push({
-            competition_name: league.boat_type,
+            competition: "LEAGUE-" + league.boat_type + "-" + year,
             category: league.category,
             position: position,
           });
@@ -154,8 +156,5 @@ export class TeamService {
     
         return leagueResults;
       }
-    
-      private sortResults(results) {
-        return results.sort((a, b) => a.time - b.time); // Por ejemplo, puedes ajustar cómo ordenar los resultados
-      }
+
 }
