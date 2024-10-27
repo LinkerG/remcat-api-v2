@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsOptional, IsString, IsDate, ValidateIf } from 'class-validator';
+import { IsArray, IsEnum, IsOptional, IsString, IsDate, ValidateIf, IsNotEmpty } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { BoatType } from '../schemas/competition.schema'; // Ajusta la ruta según sea necesario
 
@@ -33,7 +33,7 @@ export class QueryCompetitionsDto {
         },
     })
     @IsOptional()
-    @IsDate()
+    @IsNotEmpty()
     date_from?: Date;
 
     @ApiPropertyOptional({

@@ -47,7 +47,7 @@ export class CompetitionController {
         return this.competitionService.findAll({ date_from: new Date(`${year}-1-1`), date_to: new Date(`${year}-12-31`) });
     }
 
-    @Get(":slug")
+    @Get("/slug/:slug")
     @ApiOperation({ description: 'Get a competition by ID' })
     async findBySlug(
         @Param('slug') slug: string
